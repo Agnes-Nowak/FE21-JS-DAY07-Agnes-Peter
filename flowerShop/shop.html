@@ -1,0 +1,408 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Flowers</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    />
+    <link rel="stylesheet" href="Style/styles.css" />
+  </head>
+
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light mynav">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+          <img
+            src="Images/logo.png"
+            alt=""
+            width="150"
+            height="auto"
+            class="d-inline-block align-top"
+          />
+        </a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link active h4" aria-current="page" href="#"
+                >Products</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link h4" href="#">Delivery</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- here ends navbar -->
+    <div class="container">
+      <h2 class="text-center w-100 my-5 mx-1 p-3 h1">Products</h2>
+
+      <div class="products row">
+        <div class="product col-12 col-md-6 col-lg-4 text-center fw-bold">
+          <p class="product-title h3 m-3">Rose</p>
+          <img class="product-image" src="Images/rose.png" />
+          <div class="product-details">
+            <p class="product-price h4 m-3">€ 4.00</p>
+            <span class="product-quantity h4 m-3">Stock: x</span>
+            <button class="btn btn-primary product-button" type="button">
+              ADD TO CART
+            </button>
+          </div>
+        </div>
+        <div class="product col-12 col-md-6 col-lg-4 text-center fw-bold">
+          <p class="product-title h3 m-3">Sunflower</p>
+          <img class="product-image" src="Images/sunflower.png" />
+          <div class="product-details">
+            <p class="product-price h4 m-3">€ 4.50</p>
+            <span class="product-quantity h4 m-3">Stock: x</span>
+            <button class="btn btn-primary product-button" type="button">
+              ADD TO CART
+            </button>
+          </div>
+        </div>
+        <div class="product col-12 col-md-6 col-lg-4 text-center fw-bold">
+          <p class="product-title h3 m-3">Flower bouquet</p>
+          <img class="product-image" src="Images/bouquet.png" />
+          <div class="product-details">
+            <p class="product-price h4 m-3">€ 24.80</p>
+            <span class="product-quantity h4 m-3">Stock: x</span>
+            <button class="btn btn-primary product-button" type="button">
+              ADD TO CART
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!--cart starts here  -->
+      <div id="cart" class="mt-5">
+        <div class="cart-header h4 border-bottom row">
+          <span class="cart-item col-6 mb-3">ITEM</span>
+          <span class="cart-price col-3 mb-3">PRICE</span>
+          <span class="cart-quantity col-3 mb-3">QUANTITY</span>
+        </div>
+        <div id="cart-items">
+          <!-- empty cart -->
+        </div>
+        <div id="total" class="cart-total">
+          <strong class="cart-total-title">
+            Total (<span id="quantity" class="cart-total-quantity">0</span> Item/s)
+          </strong>
+          <span id="price" class="cart-total-price h4">€0.00</span>
+    
+        </div>
+        <div id="cart-discount-div" style="visibility: hidden" class="cart-discount">
+          <p></p>
+            <strong class="cart-discount">Discount</strong>
+            <span id="cartSumDiscount" class="cart-discount h4">€0.00</span>
+          </p>
+          <p>
+            <strong class="cart-discount">Total after Discount</strong>
+            <span id="carSumAfterDiscount" class="cart-discount h4">€0.00</span>
+          </p>
+        </div>
+        <div class="d-flex justify-content-center m-4">
+          <button
+            id="btn-purchase"
+            class="btn btn-primary btn-purchase"
+            type="button"
+          >
+            Check out <br /><i
+              class="fa fa-handshake-o"
+              style="font-size: 36px; color: white"
+            ></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <footer class="mynav d-flex justify-content-center align-items-center">
+      <span class="h2">CodeFactory Shop</span>
+    </footer>
+
+    <script>
+        //init
+        let quantityArrayOLD = [ ['Cube 2019',10],
+                              ['GT Avalanche',13],
+                              ['Trek 8',8]
+                            ];
+        let quantityArray = [  ['Rose',10],
+                                  ['Sunflower',13],
+                                  ['Flower bouquet',8]
+                            ];
+        documentReady();
+
+        let btnPurchase = document.getElementById("btn-purchase");
+        btnPurchase.addEventListener("click", purchase);
+        
+        function documentReady(){
+            let addToCartBtns = document.getElementsByClassName("product-button");
+            for (let btn of addToCartBtns) {
+                btn.addEventListener("click", addItem);
+            } 
+
+            let cartBtnPlus = document.getElementsByClassName("plus");
+            for (let btn of cartBtnPlus) {
+                btn.addEventListener("click", plusQtt);
+            } 
+            
+            let cartBtnMinus = document.getElementsByClassName("minus");
+            for (let btn of cartBtnMinus) {
+                btn.addEventListener("click", minusQtt);
+            } 
+            
+            let cartBtnDel = document.getElementsByClassName("del");
+            for (let btn of cartBtnDel) {
+                btn.addEventListener("click", delItem);
+            } 
+
+            printStock();
+        }
+
+        function addItem(e) {
+            let item = e.target.parentElement.parentElement;
+            let title = item.querySelector(".product-title").innerHTML;
+            let img = item.querySelector(".product-image").src;
+            let price = item.querySelector(".product-price").innerHTML.replace("€", "");
+
+            console.log(title, img, price);
+            rowCreate(title, img, price);
+            //checkStock(itemTitle);
+            updateTotal();
+            documentReady();
+        }
+
+        function rowCreate(title, img, price) {
+            console.log("call row create");
+            let cartItems = document.getElementById("cart-items");
+            let cartItemsNames = cartItems.getElementsByClassName("cart-item-title");
+            let cartItemQtt = cartItems.getElementsByClassName("cart-quantity");
+            
+            //for (let i = 0; i < cartItemsNames.length; i++) {
+            for (let i in cartItemsNames) {   
+                if (cartItemsNames[i].innerText == title) {
+                    alert("This item already exists in your cart");
+                    let qtt = Number(cartItemQtt[i].innerHTML);
+                    cartItemQtt[i].innerHTML = qtt + 1;
+                    // console.log(qtt);           
+                    return;//it will stop our script
+                }
+            }
+
+            let item = `
+            <div class="cart-row row d-flex ">
+                <div class="cart-item col-6 my-3 ">
+                    <img class="cart-item-image" src="${img}" width="100" height="100">
+                    <span class="cart-item-title h5 ">${title}</span>
+                </div>
+                <span class="cart-price col-3 h4 my-3">€ ${price}</span>
+                <div class="cart-qtty-action col-3 d-flex">            
+                    <i class="minus fa fa-minus-circle my-auto" ></i>            
+                    <div class="cart-quantity p-4 h4">1</div>            
+                    <i class="plus fa fa-plus-circle my-auto"></i>        
+                    <button class="del btn btn-danger rounded-circle  my-auto ms-3 fw-bold" type="button"> X </button>            
+                </div>
+            </div>`;
+
+            cartItems.innerHTML += item; 
+        }
+    
+        function updateTotal(){
+            let cartTotal=0;
+            let cartItemQtt = document.getElementsByClassName("cart-quantity");
+            let cartItemPrice = document.getElementsByClassName("cart-price");
+
+            //start by 1 as 0 is the headline
+            for(let i=1; i<cartItemQtt.length; i++) {
+                cartTotal += Number(cartItemPrice[i].innerHTML.replace("€", "")) * Number(cartItemQtt[i].innerHTML);
+            }
+
+            document.getElementById('price').innerHTML = "€" + cartTotal;
+            totalQtt();
+            discount(cartTotal);
+        }
+
+        function plusQtt(e) {
+            console.log("called plus btn");
+            let currentQtt = Number(e.target.parentElement.querySelector('.cart-quantity').innerText);
+            if ( checkStock(e) ) {
+              e.target.parentElement.querySelector('.cart-quantity').innerText = currentQtt+1;
+            } else {
+              let tmpName = e.target.parentElement.parentElement.querySelector('.cart-item-title').innerText;
+              alert (`sorry mate! not enough ${tmpName} stock! grab other bikes too!`);
+            }
+            
+            updateTotal();
+        }
+        
+        function minusQtt(e) {
+            console.log("called minus btn");
+            let currentQtt = Number(e.target.parentElement.querySelector('.cart-quantity').innerText);
+            
+            if (currentQtt === 1) {
+                delItem(e);
+            } 
+            else {
+                e.target.parentElement.querySelector('.cart-quantity').innerText = currentQtt-1;
+            } 
+            updateTotal();
+        }
+
+        function delItem(e) {
+            console.log("called delete btn");
+            let x = e.target.parentElement.parentElement.remove();
+            updateTotal();
+        }
+
+        function purchase() {
+            alert("Thank you for buying with us.");
+            let cartItems = document.getElementById('cart-items');
+            cartItems.innerHTML = "Thanks";
+            // console.log(cartItems);
+            // while (cartItems.hasChildNodes()) {
+            //     cartItems.removeChild(cartItems.firstChild);
+            // }  
+            updateTotal();
+        }
+    
+        function totalQtt() {
+          //console.log("totalQtt called");
+          let myCartQtts = document.getElementsByClassName('cart-quantity');
+          let tmpTotalQtts = 0;
+
+          for(let i = 1; i < myCartQtts.length; i++) {
+            //console.log(myCartQtts[i].innerText);
+            tmpTotalQtts += Number(myCartQtts[i].innerText);
+          }
+
+          console.log("Qtt:"+tmpTotalQtts);
+
+          document.getElementById('quantity').innerHTML = tmpTotalQtts;
+          
+          return tmpTotalQtts;  
+        }
+
+        function discount(sum) {
+          let tmpSum = Number(sum);
+          let discount = 0;
+          
+          console.log("called tmpSum: " + tmpSum);
+          
+          // switch(true) {
+          //   case tmpSum < 5000 :
+          //     console.log(`For ${tmpSum} there is no discount`);
+          //     discount=0;
+          //     break;
+          //   case tmpSum >= 5000 && tmpSum < 10000 :
+          //     discount=10;
+          //     console.log(`For ${tmpSum} there is a ${discount}% discount`);
+          //     break;
+          //   case tmpSum >= 10000 :
+          //     discount=20;
+          //     console.log(`For ${tmpSum} there is a ${discount}% discount`);
+          //     break;
+          //   default:
+          //     console.log(`switch default`);
+          // }
+
+          if (tmpSum < 5000) {
+            console.log(`For ${tmpSum} there is no discount`);
+            discount=0;
+          } else if (tmpSum >= 5000 && tmpSum < 10000) {
+            discount=10;
+            console.log(`For ${tmpSum} there is a ${discount}% discount`);
+          } else { 
+            //tmpSum >= 10000
+            discount=20;
+            console.log(`For ${tmpSum} there is a ${discount}% discount`);
+          }
+
+          if(discount===0) {
+            document.getElementById('cartSumDiscount').innerHTML = `You did NOT qualified for a discount`;
+            document.getElementById('carSumAfterDiscount').innerHTML = "€"+tmpSum; 
+            console.log("hide dicsount div");
+            document.getElementById('cart-discount-div').style.visibility = "hidden";
+          } else {
+            let discountSum = tmpSum*((100-discount)/100);
+            document.getElementById('cartSumDiscount').innerHTML = `You qualified for a ${discount}% discount`;
+            document.getElementById('carSumAfterDiscount').innerHTML = "€"+discountSum;
+            document.getElementById('cart-discount-div').style.visibility = "visible";
+          }
+        }
+
+        function printStock() {
+          let productList = document.getElementsByClassName('product');
+          //productList = shown divs with the items
+          for (let product of productList) {
+            //console.log("Product title:" + product.querySelector('.product-title').innerHTML);
+            //console.log("Product quantity:" + product.querySelector('.product-quantity').innerHTML.replace("Stock:", ""))
+            //quantity array = 2d-array => [["name1", stock1], ["name2", stock2]]
+            for (let item of quantityArray) {
+                //console.log(item);
+                //console.log("name: "+ item[0]+",quantity: "+ item[1]);
+                if(product.querySelector('.product-title').innerHTML === item[0]) {
+                  product.querySelector('.product-quantity').innerHTML = "Stock: " + item[1];
+                }
+            }
+          }
+        }
+
+        function checkStock(agnes) {
+          //console.log("agnes said:" + agnes);
+          let tmpQt = agnes.target.parentElement.querySelector('.cart-quantity').innerText;
+          let tmpName = agnes.target.parentElement.parentElement.querySelector('.cart-item-title').innerText;
+          
+          for (let product of quantityArray) {
+            if(product[0] === tmpName) {
+              if(tmpQt < product[1]) {
+                return true;
+              }
+            }
+          }
+
+          return false;
+          
+          console.log("agnes said:" + tmpName + ",stock: " + tmpQt);
+
+        }
+
+        function upDateStock() {
+
+        }
+
+    </script>
+    <!--<script src="Script/cart.js"></script> -->
+    <script src="Script/cart.js"></script>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
